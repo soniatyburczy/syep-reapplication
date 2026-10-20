@@ -1,0 +1,58 @@
+
+--- demographics ---
+race: 5 level(s); 0 rows (0.0%) coded as 'Missing/unrecorded'
+gender: 2 level(s); 0 rows (0.0%) coded as 'Missing/unrecorded'
+
+provider-complete person-years: 114,625
+Provider is unrecorded on ~12% of A, concentrated in 2022, so this analysis is lighter on 2022 than the raw frame.
+[provider_analysis] demographic references: race='Black or African American', gender='Female'
+
+=== 1. PROVIDER COMPOSITION ===
+46 providers over 114,625 person-years
+size: banded in provider_summary.csv (under 1,000 / 1,000-2,499 / 2,500+)
+0 provider(s) under 100 person-years, flagged not dropped
+raw return rate: min=0.492 median=0.565 max=0.721 sd=0.0523
+
+=== 2. IS THE PROVIDER BLOCK JOINTLY NON-ZERO? ===
+reference provider = the largest provider
+
+[provider_base] starting n=114,625; 0 dropped on Participant.Unique.ID
+formula_missing_drop=0 converged=True n_used=114,625 pseudo_r2=0.0783
+
+[provider_fe] starting n=114,625; 0 dropped on Participant.Unique.ID
+formula_missing_drop=0 converged=True n_used=114,625 pseudo_r2=0.0847
+                           test  df  chi2          p                                             note
+        Wald (person-clustered)  45 930.6 8.424e-166                                   quote this one
+Likelihood ratio (independence)  45 981.4 2.386e-176 assumes independent rows; anti-conservative here
+
+pseudo-R2: 0.0783 without provider, 0.0847 with (+0.0064)
+  -> providers differ jointly. The caterpillar plot shows whether that is a few outliers or a broad spread; a significant block test with no individually separating provider means the former is not established either.
+
+=== 3. ADJUSTED EXCESS RETURN BY PROVIDER ===
+31 of 46 providers have an adjusted excess whose 95% interval excludes zero
+excess spread: min=-9.0pp max=10.4pp sd=4.20pp
+
+=== 4. VARIANCE ACCOUNTED FOR BY PARTICIPANT MIX ===
+raw provider return rate sd      = 5.23 pp
+adjusted excess sd               = 4.20 pp
+spread accounted for by mix      = 19.6%
+Spearman(raw rate, adj excess)   = 0.874
+
+Adjustment changes neither the spread nor the ordering much, so differences between providers are not explained by the participant characteristics in the model. That does not make them provider effects -- it means the cause is something not measured here.
+
+
+=== 5. PROVIDER COMPOSITION vs ADJUSTED EXCESS ===
+n providers = 46, R2 = 0.355
+            term   coef_pp        lo       hi      p
+       Intercept -155.7492 -268.4660 -43.0325 0.0068
+      mean_hours    0.1361   -0.1803   0.4525 0.3992
+zero_hours_share   -3.7486  -56.1672  48.6700 0.8885
+   no_show_share    2.9295  -20.0863  25.9453 0.8030
+        mean_age    7.2736    1.2644  13.2828 0.0177
+           log_n    1.0289   -1.8252   3.8829 0.4798
+Descriptive only: the right-hand side is aggregated from the same participants that produced the residuals.
+
+=== 6. BIGGEST RANK MOVERS (providers above the size floor) ===
+See provider_summary.csv (rank_raw, rank_adjusted, rank_shift).
+
+wrote plots/provider_caterpillar.png

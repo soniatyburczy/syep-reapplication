@@ -1,0 +1,9 @@
+pandas>=2.2
+numpy>=1.26
+statsmodels>=0.14
+patsy>=0.5.6
+scipy>=1.11
+rapidfuzz>=3.6
+matplotlib>=3.8
+seaborn>=0.13
+tabulate>=0.9    # DataFrame.to_markdown in descriptives/cohort_table.py

@@ -1,0 +1,48 @@
+﻿provider,size_band,return_rate_pct
+Provider 01,"2,500+",53
+Provider 02,"1,000-2,499",56
+Provider 03,"1,000-2,499",56
+Provider 04,"1,000-2,499",70
+Provider 05,"1,000-2,499",54
+Provider 06,"2,500+",61
+Provider 07,"1,000-2,499",53
+Provider 08,"1,000-2,499",61
+Provider 09,"2,500+",72
+Provider 10,"1,000-2,499",58
+Provider 11,"2,500+",60
+Provider 12,"1,000-2,499",56
+Provider 13,"under 1,000",62
+Provider 14,"1,000-2,499",58
+Provider 15,"1,000-2,499",58
+Provider 16,"2,500+",64
+Provider 17,"under 1,000",49
+Provider 18,"under 1,000",53
+Provider 19,"1,000-2,499",57
+Provider 20,"1,000-2,499",56
+Provider 21,"2,500+",57
+Provider 22,"under 1,000",49
+Provider 23,"1,000-2,499",54
+Provider 24,"1,000-2,499",63
+Provider 25,"under 1,000",56
+Provider 26,"1,000-2,499",63
+Provider 27,"2,500+",57
+Provider 28,"under 1,000",56
+Provider 29,"2,500+",55
+Provider 30,"1,000-2,499",63
+Provider 31,"2,500+",52
+Provider 32,"2,500+",67
+Provider 33,"1,000-2,499",68
+Provider 34,"1,000-2,499",65
+Provider 35,"2,500+",56
+Provider 36,"1,000-2,499",59
+Provider 37,"1,000-2,499",57
+Provider 38,"2,500+",54
+Provider 39,"1,000-2,499",59
+Provider 40,"under 1,000",50
+Provider 41,"2,500+",56
+Provider 42,"under 1,000",63
+Provider 43,"1,000-2,499",54
+Provider 44,"1,000-2,499",53
+Provider 45,"1,000-2,499",55
+Provider 46,"1,000-2,499",54
+(provider unrecorded),"2,500+",53

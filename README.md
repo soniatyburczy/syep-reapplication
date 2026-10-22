@@ -18,7 +18,7 @@ An end-to-end analysis built during my summer 2026 analytics internship with the
 |---|---|
 | **Hours worked** | Monotonic dose-response with no inversions. Youth who worked 0 hours have **0.23×** the odds of reapplying of youth who worked 126–149 hours. Youth who hit the 150-hour cap have **1.28×** the odds. Observed return rates run from **31% → 72%** across the bands. |
 | **Self-reported benefits** | None of the five benefit items (career clarity, job readiness, self-efficacy, mentorship, money management) predicts return after FDR correction. All odds ratios fall between 0.85 and 1.05, and the block-level composites rule out effects larger than 1.20×. |
-| **First-choice placement** | The **one** survey item that predicts return: youth for whom SYEP was their first choice have **1.32×** the odds (q = 0.003), about +5 percentage points. |
+| **First-choice placement** | The **one** survey item that predicts return: youth for whom SYEP was their first choice for what they wanted to do that summer have **1.32×** the odds (q = 0.003), about +5 percentage points. |
 | **Providers** | Providers differ jointly (Wald χ²₄₅ = 931). Adjusted "excess return" spans about −9 to +10 pp. Participant mix explains only **~20%** of that spread, so the rest comes from something the data doesn't measure. |
 | **Gender** | Male participants have **0.85×** the adjusted odds of female participants (q = 0.008). The result is robust to the clustering choice. |
 | **Trend** | Reapplication rose from **55.6% (2022) to 62.8% (2024)**. |
@@ -93,8 +93,6 @@ Guardrails in the code:
 ### Provider de-identification
 
 The point of the provider analysis is the method: how much variation sits between providers, and whether participant mix explains it. It is not meant to rank named organizations, so providers are de-identified in everything published here.
-
-Swapping names for labels isn't enough on its own. A provider's size, borough footprint, or how narrow its confidence interval is can identify it to anyone who knows the program. [`descriptives/disclosure.py`](descriptives/disclosure.py) therefore:
 
 | Fingerprint | Treatment |
 |---|---|
@@ -263,7 +261,7 @@ All numbers come from [`results/models/`](results/models/). The current `coefs.c
 
 <p align="center"><img src="figures/models/hours_by_age.png" width="680" alt="Adjusted probability of reapplying by hours band for three age groups; all three rise with hours"></p>
 
-### 2. Survey items: one signal, many precise nulls
+### 2. Survey items: one signal, many nulls
 
 `B_survey`, n = 4,785:
 
@@ -274,7 +272,7 @@ All numbers come from [`results/models/`](results/models/). The current `coefs.c
 - **Expectations block:** significant (q = 0.004), but only because of first choice. Without that item it is null (q = 0.28).
 - **Bridge model:** the same administrative specification on survey responders keeps the low-hours gradient (0 hours OR 0.25, 95% CI 0.12 – 0.51). The pseudo-R² drops from 0.078 to 0.027 because responders are 98.8% completers, so the hours variance is truncated.
 
-The only survey item that predicts return isn't about how the program *felt*. It's about whether the young person got the program they wanted, which is consistent with the hours result.
+The only survey item that predicts return isn't about how the program *felt*. It's about whether the young person wanted to do SYEP, as their first-choice summer activity, in the first place.
 
 ### 3. Providers differ, and participant mix doesn't explain it
 
@@ -283,7 +281,7 @@ The only survey item that predicts return isn't about how the program *felt*. It
 - **Providers differ jointly.** Person-clustered Wald χ²₄₅ = 931 (p < 10⁻¹⁶⁰). Pseudo-R² goes from 0.078 to 0.085 with provider fixed effects.
 - **31 of 46 providers** have an adjusted excess return whose 95% interval excludes zero. The range is −9.0 to +10.4 pp (SD 4.2 pp).
 - **Adjustment barely moves the ranking.** It shrinks the spread by only 19.6% (raw SD 5.2 → 4.2 pp), and raw and adjusted rankings correlate at Spearman ρ = 0.87. So provider differences are *not* explained by the participant characteristics in the model. That does not make them provider *effects*: the cause is unmeasured.
-- **Worksite matters more than provider.** In the pre-registration ANOVA, worksite adds 4.9 pts of R² beyond provider, while provider adds only 0.3 beyond worksite. Much of the "provider" variation is plausibly *which worksites a provider runs*.
+- **Worksite matters more than provider.** In the pre-registration ANOVA, worksite adds 4.9 pts of R² beyond provider, while provider adds only 0.3 beyond worksite. Much of the “provider” variation is plausibly which worksites a provider runs. However, youth apply to providers, not worksites, and can’t know in advance which worksite they’ll be placed at, so the worksite effect reflects provider placement decisions rather than youth choice.
 - **Brooklyn is partly a provider-mix story.** Its higher raw rate (62.8% vs 59.4% pooled) is partly driven by one large, high-return provider. But standardizing to the pooled provider mix closes only about a third of the gap.
 
 ### 4. Demographics and context
@@ -291,8 +289,7 @@ The only survey item that predicts return isn't about how the program *felt*. It
 - **Gender.** Male participants have adjusted OR **0.85** (0.77 – 0.95, q = 0.008) relative to female participants. The point estimate is identical under person clustering, with a narrower interval (0.83 – 0.88). In the survey subsample the direction is the same but the result isn't significant (OR 0.90, p = 0.15), which is consistent with that sample's lower power.
 - **Year.** 2023 vs 2022: OR 1.20. 2024 vs 2022: OR 1.32. I report these as context, not as a program effect.
 - **Borough.** Not significant under provider clustering (Brooklyn q = 0.17), but strongly significant under person clustering (q < 0.0001). Providers nest within boroughs, so provider clustering is the right and more conservative choice. Here, the inference decision changes the conclusion.
-- **Race.** Coefficients are estimated, but I would not interpret them as reported. Only 277 of 114,625 person-years are coded "Hispanic", which suggests Hispanic ethnicity is recorded in a separate field that the current race recode doesn't use.
-
+- **Race.** Coefficients are estimated, but I would not interpret them as reported. Changes in how race/ethnicity was recorded left some categories very sparse (only 277 of 114,625 person-years are coded “Hispanic”), so the coefficients likely reflect how race was recorded rather than real differences between groups.
 ---
 
 ## Limitations
@@ -300,10 +297,9 @@ The only survey item that predicts return isn't about how the program *felt*. It
 - **Association, not causation.** Hours worked is endogenous. Whatever engagement keeps a young person on site to 150 hours plausibly also brings them back. This does **not** show that assigning more hours would raise retention.
 - **Where, not why.** The analysis locates attrition early in the placement but doesn't explain any individual's decision. The survey was designed for pre/post attitude change, and its items are ceiling-loaded satisfaction measures.
 - **The survey describes completers.** Responders return at 69.6% vs 56.1% for non-responders. 20.0% of non-responders worked zero hours, compared with 1.2% of responders. That gap is by construction, since a matched pre/post response requires completing the program.
-- **Provider missingness is a regime change.** Provider is unrecorded for 37.8% of 2022 person-years and 0% after. The provider-clustered fits are therefore lighter on 2022 than the raw frame.
+- **Provider missingness.** Provider is unrecorded for 37.8% of 2022 person-years and 0% after. The provider-clustered fits are therefore lighter on 2022 than the raw frame.
 - **Clustering rests on 46 providers.** That is near the conventional floor for cluster-robust asymptotics.
 - **Return measures revealed demand, not benefit.** Coming back is not the same as the program having worked, and you can't learn anything about youth who never enrolled.
-- **`worksite_matched` runs counter-intuitively** (OR 0.90). It is most plausibly an administrative-completeness artifact. I flag it rather than report it as a finding.
 
 ### What I'd do next
 
@@ -401,7 +397,7 @@ Notes on the run:
 
 - Survey preprocessing upstream of step 8 (stacking the pre/post exports into `processed/surveys.csv`) happened outside this repo.
 - `notebooks/pipeline/survey_first_year_only.ipynb` is superseded. `lg.py` now does the first-year selection against Frame A.
-- The model scripts write real provider names and exact counts into `results/`. Step 13 is what makes those outputs publishable, so never commit between steps 11 and 13.
+- The model scripts write real provider names and exact counts into `results/`.
 
 ---
 

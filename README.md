@@ -406,7 +406,7 @@ Notes on the run:
 I used an AI assistant (Claude, by Anthropic) for parts of this project:
 
 - **Preparing the public repository.** After my own review, the AI audited the repository for sensitive content, reorganized the folder structure, and moved file paths into `paths.py`. It also helped design and write `descriptives/disclosure.py`, the de-identification step that keeps providers from being identifiable by people who know the program.
-- **Documentation.** The AI drafted this README from my code, results, and existing write-ups (`docs/`). I reviewed it against the result files.
+- **Documentation.** Much of the in-code documentation — docstrings, comments explaining design decisions, and the notebook headers — was written or expanded with AI assistance (a kindness to future me, who would otherwise have no idea what any of this does), as was this README, which was drafted from my code, results, and existing write-ups (`docs/`). I reviewed all of it against the code and result files.
 - **Code assistance.** Some pipeline modules were drafted or debugged with AI help, as noted in their file headers. I specified, reviewed, and tested all of them.
 
 The research question, analytic design, modeling decisions, and interpretation of results are my own. The AI-assisted cleanup was done on the finished repository, not on the raw application or survey extracts.
